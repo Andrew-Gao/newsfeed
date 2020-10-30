@@ -3,8 +3,10 @@ import "antd/dist/antd.css";
 import { Button } from 'antd';
 import { Card } from 'antd';
 import { Typography } from 'antd';
+import { Input } from 'antd';
 
 const { Title, Link } = Typography;
+const { Search } = Input;
 
 export default class Homepage extends Component {
     constructor(props) {
@@ -31,7 +33,7 @@ export default class Homepage extends Component {
                 {this.state.articles[i].author}
                 {this.state.articles[i].description}
                 
-                {<Link href= {this.state.articles[i].url}>
+                {<Link href = {this.state.articles[i].url}>
                     Read more
                 </Link>}
             </Card.Grid>
@@ -68,11 +70,14 @@ export default class Homepage extends Component {
     render(){
         return (
             <div>
-                <div className="App" style = {{textAlign: "center"}}>
+                <div className="App" style = {{textAlign: "center", marginBottom: "50px"}}>
                     <Title style = {{fontSize : 60}}>Newsfeed</Title>
-                        <Button onClick = {() => this.handleClick(1)}>Entertainment</Button>
+                        <Search style={{ width: 200, margin: '0 10px' }} placeholder="input search text" onSearch={() => console.log("search")} enterButton />
+                        <br></br>
+                        <br></br>
+                        {/* <Button onClick = {() => this.handleClick(1)}>Entertainment</Button>
                         <Button onClick = {() => this.handleClick(2)}>Sports</Button>
-                        <Button onClick = {() => this.handleClick(3)}>Technology</Button>
+                        <Button onClick = {() => this.handleClick(3)}>Technology</Button> */}
                 </div>
                 <div>
                     <Card title={this.state.currentCategory} style = {{textAlign : "center"}}>
