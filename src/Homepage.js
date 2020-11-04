@@ -8,6 +8,10 @@ import { BackTop } from 'antd';
 const { Title } = Typography;
 const { Search } = Input;
 
+//You need to:
+//Figure out the image response code thing (wait for grants response)
+//add in error handling for a bad response 
+
 export default class Homepage extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +25,7 @@ export default class Homepage extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    constructCards(){
+   async constructCards(){
         //styling for individual cards
         const gridStyle = {
             width: '329px',
@@ -34,20 +38,29 @@ export default class Homepage extends Component {
             marginBottom: '100px',
           };
         let cardArray = []
-        if (this.state.articles.length == 0){   // this is the case in which nothing gets returned from the search
+        if (this.state.articles.length === 0){   // this is the case in which nothing gets returned from the search
             this.setState({noResult: true})
         }
         for (let i = 0; i < this.state.articles.length; i++){
+            
             const author = this.state.articles[i].author == null ? "" : this.state.articles[i].author  // In case the author is null, we don't want the word "null"
-            const title = this.state.articles[i].title.length > 100 ? this.state.articles[i].title.substring(0,100) + "..." : this.state.articles[i].title //Title being too long causes formatting issues
+            const title = this.state.articles[i].title.length > 100 ? this.state.articles[i].title.substring(0,100) + "..." : this.state.articles[i].title //Title being too long causes formatting issues 
+            const image = 
+            this.state.articles[i].urlToImage != null? 
+            <Image
+                fallback = {imageUrl}
+                height={'180px'}
+                src = {this.state.articles[i].urlToImage}
+                style = {{marginBottom: "50px"}}
+            /> :
+            <Image 
+                src = {imageUrl} 
+                height={'180px'} 
+                style = {{marginBottom: "50px"}}
+            />
             cardArray.push(
-            <Card.Grid style={gridStyle}>
-                <Image
-                    fallback = {imageUrl}
-                    height={'180px'}
-                    src = {this.state.articles[i].urlToImage}
-                    style = {{marginBottom: "50px"}}
-                />
+            <Card.Grid style = {gridStyle} >
+                {image}
                 <br/>
                 <Title style = {{textAlign: "left", fontSize : 25, color : "white"}}>{title.toUpperCase()}</Title>
                 <Title level = {5} style = {{textAlign: "left", fontSize : 15, color : "white"}}>{author + " | " + this.state.articles[i].source.name}</Title>
@@ -71,9 +84,13 @@ export default class Homepage extends Component {
         'apiKey=68716d4f70494bcf9345d6d183c0c836';
         var req = new Request(url);
         const response = await fetch(req);
-        const body = await response.json()
-        this.setState({ articles : body.articles.slice(0,100)}) 
-        this.constructCards(); //constructs the main news display grid based off the search results
+        if(response.ok){
+            const body = await response.json()
+            this.setState({ articles : body.articles.slice(0,100)}) 
+            this.constructCards(); //constructs the main news display grid based off the search results 
+        } else {
+            throw Error("Error fetching data resulted in response code " + response.status)
+        } 
     }
 
     //From https://stackoverflow.com/questions/45046030/maintaining-href-open-in-new-tab-with-an-onclick-handler-in-react
