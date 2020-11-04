@@ -70,7 +70,7 @@ export default class Homepage extends Component {
         'sortBy=popularity&' +
         'apiKey=68716d4f70494bcf9345d6d183c0c836';
         var req = new Request(url);
-        const response = await fetch(req);
+        const response = await fetch(req, {mode: 'cors'});
         const body = await response.json()
         this.setState({ articles : body.articles.slice(0,100)}) 
         this.constructCards(); //constructs the main news display grid based off the search results
@@ -97,7 +97,7 @@ export default class Homepage extends Component {
           'sortBy=popularity&' +
           'apiKey=68716d4f70494bcf9345d6d183c0c836';
         var req = new Request(url);
-        const response = await fetch(req);
+        const response = await fetch(req, {mode: 'cors'});
         const body = await response.json()
         this.setState({ articles : body.articles.slice(0,100), noResult: false}) //Sets the stateful articles array to the first 100 articles returned 
         this.constructCards(); //constructs the main news display grid based off the search results
