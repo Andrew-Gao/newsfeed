@@ -76,7 +76,7 @@ export default class Homepage extends Component {
     }
 
     async componentDidMount(){
-        var url = 'http://newsapi.org/v2/everything?' +
+        var url = 'https://newsapi.org/v2/everything?' +
         `q=Technology OR Entertainment OR Sports&` +
         'from=2020-01-00&' +
         'pageSize=100&' +
@@ -107,7 +107,7 @@ export default class Homepage extends Component {
 
     //sends get request to the News API when user clicks the search button or hits enter
     async handleSubmit(){
-        const url = 'http://newsapi.org/v2/everything?' +
+        const url = 'https://newsapi.org/v2/everything?' +
           `q=${this.state.searched} AND (Technology OR Entertainment OR Sports)&` +
           'from=2020-01-00&' +
           'pageSize=100&' +
