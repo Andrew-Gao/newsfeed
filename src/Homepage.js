@@ -76,14 +76,13 @@ export default class Homepage extends Component {
     }
 
     async componentDidMount(){
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
         var url = 'http://newsapi.org/v2/everything?' +
         `q=Technology OR Entertainment OR Sports&` +
         'from=2020-01-00&' +
         'pageSize=100&' +
         'sortBy=popularity&' +
-        'apiKey=68716d4f70494bcf9345d6d183c0c836';
-        var req = new Request(proxyurl + url);
+        'apiKey=78b9d599c4f94f8fa3afb1a5458928d6';
+        var req = new Request(url);
         const response = await fetch(req);
         if(response.ok){
             const body = await response.json()
@@ -108,15 +107,14 @@ export default class Homepage extends Component {
 
     //sends get request to the News API when user clicks the search button or hits enter
     async handleSubmit(){
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
         const url = 'http://newsapi.org/v2/everything?' +
           `q=${this.state.searched} AND (Technology OR Entertainment OR Sports)&` +
           'from=2020-01-00&' +
           'pageSize=100&' +
           'sortBy=popularity&' +
-          'apiKey=68716d4f70494bcf9345d6d183c0c836';
-        var req = new Request(proxyurl+url);
-        const response = await fetch(req, {mode: 'cors'});
+          'apiKey=78b9d599c4f94f8fa3afb1a5458928d6';
+        var req = new Request(url);
+        const response = await fetch(req);
         const body = await response.json()
         this.setState({ articles : body.articles.slice(0,100), noResult: false}) //Sets the stateful articles array to the first 100 articles returned 
         this.constructCards(); //constructs the main news display grid based off the search results
